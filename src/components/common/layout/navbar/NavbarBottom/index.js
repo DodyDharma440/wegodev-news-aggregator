@@ -1,24 +1,25 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 import { HiHome, HiClipboardList, HiSearch, HiBookmark } from "react-icons/hi";
 
 const menuItems = [
   {
-    url: "",
-    icon: <HiHome className="m-auto text-2xl" />,
+    url: "/",
+    icon: <HiHome className="m-auto" />,
   },
   {
-    url: "",
-    icon: <HiClipboardList className="m-auto text-2xl" />,
+    url: "/category",
+    icon: <HiClipboardList className="m-auto" />,
   },
   {
-    url: "",
-    icon: <HiSearch className="m-auto text-2xl" />,
+    url: "/explore",
+    icon: <HiSearch className="m-auto" />,
   },
   {
-    url: "",
-    icon: <HiBookmark className="m-auto text-2xl" />,
+    url: "/bookmarks",
+    icon: <HiBookmark className="m-auto" />,
   },
 ];
 
@@ -33,7 +34,9 @@ const NavbarTop = () => {
               className="py-3 px-5 hover:bg-green-600 text-center"
               style={{ width: `calc(100vh / ${menuItems.length})` }}
             >
-              <p className="text-gray-100 font-bold text-xl">{menuItem.icon}</p>
+              <Link to={menuItem.url} className="m-auto text-2xl text-gray-100">
+                {menuItem.icon}
+              </Link>
             </div>
           );
         })}

@@ -1,12 +1,15 @@
 import React from "react";
 
-import Layout from "components/common/layout";
+import CategorySlider from "components/common/category/CategorySlider";
+import NewsCardSlider from "components/common/news/NewsCardSlider";
 
-const HomePage = () => {
+const HomePage = ({ recentNews, headlineNews, categories }) => {
   return (
-    <Layout>
-      <div>Abc</div>
-    </Layout>
+    <div id="homePage">
+      <CategorySlider categories={categories} />
+      <NewsCardSlider title="Headline News" news={headlineNews} />
+      <NewsCardSlider title="Recent News" news={recentNews} />
+    </div>
   );
 };
 

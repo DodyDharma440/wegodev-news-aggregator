@@ -1,5 +1,5 @@
 {
-  "name": "my-app",
+  "name": "wegodev-news-aggregator",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -7,6 +7,7 @@
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.7.3",
     "axios": "^0.21.1",
+    "classnames": "^2.2.6",
     "cra-template": "1.1.2",
     "craco": "^0.0.3",
     "prop-types": "^15.7.2",
