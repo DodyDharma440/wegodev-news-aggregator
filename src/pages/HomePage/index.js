@@ -1,16 +1,49 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import CategorySlider from "components/common/category/CategorySlider";
 import NewsCardSlider from "components/common/news/NewsCardSlider";
 
-const HomePage = ({ recentNews, headlineNews, categories }) => {
+import ListHorizontal from "components/common/loading/ListHorizontal";
+
+const HomePage = ({
+  popularNews,
+  headlineNews,
+  categories,
+  handleSetCategory,
+  loading,
+  errorMessage,
+}) => {
   return (
     <div id="homePage">
-      <CategorySlider categories={categories} />
-      <NewsCardSlider title="Headline News" news={headlineNews} />
-      <NewsCardSlider title="Recent News" news={recentNews} />
+      <CategorySlider
+        categories={categories}
+        handleSetCategory={handleSetCategory}
+      />
+      {loading ? (
+        <>
+          <ListHorizontal />
+          <ListHorizontal />
+        </>
+      ) : errorMessage ? (
+        errorMessage
+      ) : (
+        <>
+          <NewsCardSlider title="Headline News" news={headlineNews} />
+          <NewsCardSlider title="Popular News" news={popularNews} />
+        </>
+      )}
     </div>
   );
+};
+
+HomePage.propTypes = {
+  popularNews: PropTypes.array,
+  headlineNews: PropTypes.array,
+  categories: PropTypes.array,
+  handleSetCategory: PropTypes.func,
+  loading: PropTypes.bool,
+  errorMessage: PropTypes.string,
 };
 
 export default HomePage;

@@ -3,12 +3,18 @@ import PropTypes from "prop-types";
 
 import CategoryButton from "components/common/category/CategoryButton";
 
-const CategorySlider = ({ categories }) => {
+const CategorySlider = ({ categories, handleSetCategory }) => {
   return (
     <div className="overflow-auto whitespace-nowrap pb-3">
       {categories !== undefined
         ? categories.map((category, index) => {
-            return <CategoryButton key={index} category={category} />;
+            return (
+              <CategoryButton
+                key={index}
+                category={category}
+                handleSetCategory={handleSetCategory}
+              />
+            );
           })
         : null}
     </div>
@@ -17,6 +23,7 @@ const CategorySlider = ({ categories }) => {
 
 CategorySlider.propTypes = {
   categories: PropTypes.array,
+  handleSetCategory: PropTypes.func,
 };
 
 export default CategorySlider;

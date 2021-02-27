@@ -6,7 +6,7 @@ export const dateFormatter = (dates) => {
 
     switch (month) {
       case "01":
-        month = "Jan";
+        month = "January";
         break;
       case "02":
         month = "February";
@@ -46,7 +46,7 @@ export const dateFormatter = (dates) => {
         break;
     }
 
-    const DMY = `${date} ${month} ${year}`;
+    const DMY = `${date} ${month.substr(0, 3)} ${year}`;
 
     return DMY;
   } else {
@@ -62,5 +62,3 @@ export const timeFormatter = (time) => {
     console.error("Params is undefined");
   }
 };
-
-// console.log(timeFormatter("2021-02-25T23:30:47Z"));

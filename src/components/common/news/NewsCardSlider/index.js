@@ -4,18 +4,21 @@ import PropTypes from "prop-types";
 import NewsCard from "components/common/news/NewsCard";
 
 const NewsCardSlider = ({ title, news }) => {
-  return (
+  return news.length > 0 ? (
     <>
-      <h1 className="text-4xl font-semibold mb-2 text-gray-800">{title}</h1>
+      <h1 className="text-3xl font-semibold mb-2 text-gray-800">{title}</h1>
       <div className="overflow-auto whitespace-nowrap pb-3">
-        {news !== undefined
-          ? news.map((newsItem, index) => {
-              return <NewsCard key={index} newsItem={newsItem} />;
-            })
-          : null}
+        {news.map((newsItem, index) => {
+          return <NewsCard key={index} newsItem={newsItem} />;
+        })}
       </div>
     </>
-  );
+  ) : null;
+};
+
+NewsCardSlider.propTypes = {
+  title: PropTypes.string.isRequired,
+  news: PropTypes.array,
 };
 
 export default NewsCardSlider;

@@ -18,15 +18,13 @@ const NewsCard = ({ newsItem }) => {
 
   return (
     <div className="bg-white rounded-lg pb-2 w-80 inline-block mx-2 text-left">
-      <div
-        className="image-wrapper h-44 rounded-t-lg"
-        style={{
-          background: `url(${urlToImage})`,
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      />
+      <div className="image-wrapper">
+        <img
+          src={urlToImage}
+          alt={title}
+          className="h-44 w-full rounded-t-lg"
+        />
+      </div>
       <div className="px-4 py-2 whitespace-normal">
         <p className="mb-1 text-green-800 font-bold">Source : {source.name}</p>
         <h4 className="font-semibold text-lg truncate mb-2">{title}</h4>
@@ -41,11 +39,13 @@ const NewsCard = ({ newsItem }) => {
           </div>
           <div className="mt-2 flex">
             <HiUser className="self-center mr-1 text-xl" />
-            <span>{author}</span>
+            <span className="truncate">
+              {author !== null ? author : "Unknown"}
+            </span>
           </div>
         </div>
         <div>
-          <a href={url} target="_blank">
+          <a rel="noreferrer" href={url} target={"_blank"}>
             <div className="text-lg text-green-600 text-right">
               <p className="tracking-wide font-bold hover:underline">
                 Read More

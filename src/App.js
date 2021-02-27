@@ -1,30 +1,30 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import axios from "axios";
 
+import Routes from "./routes/Routes";
+
 import HomePage from "pages/HomePage";
-import Layout from "components/common/layout";
 
 const categories = [
-  { label: "Technology" },
-  { label: "Bussines" },
-  { label: "Entertaiment" },
-  { label: "General" },
-  { label: "Health" },
-  { label: "Science" },
-  { label: "Sports" },
+  { label: "Technology", id: "technology" },
+  { label: "Bussines", id: "bussines" },
+  { label: "Entertaiment", id: "entertaiment" },
+  { label: "General", id: "general" },
+  { label: "Health", id: "health" },
+  { label: "Science", id: "science" },
+  { label: "Sports", id: "sports" },
 ];
 
 const App = () => {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(undefined);
   const [headlineNews, setHeadlineNews] = useState([]);
-  const [recentNews, setRecentNews] = useState([]);
+  const [popularNews, setPopularNews] = useState([]);
 
-  const fetchHeadlineNews = () => {
+  const fetchHeadlineNews = (category = "technology") => {
     axios
       .get(
-        "https://newsapi.org/v2/top-headlines?q=technology&apiKey=0b1eab85c7934f29b778cb90cf9a7ff3"
+        `https://newsapi.org/v2/top-headlines?q=${category}&apiKey=0b1eab85c7934f29b778cb90cf9a7ff3`
       )
       .then((response) => {
         setHeadlineNews(response.data.articles);
@@ -35,24 +35,30 @@ const App = () => {
       });
   };
 
-  const fetchDefaultNews = () => {
+  const fetchPopularNews = (category = "technology") => {
     axios
       .get(
-        "https://newsapi.org/v2/everything?q=technology&apiKey=0b1eab85c7934f29b778cb90cf9a7ff3"
+        `https://newsapi.org/v2/everything?q=${category}&apiKey=0b1eab85c7934f29b778cb90cf9a7ff3`
       )
       .then((response) => {
-        setRecentNews(response.data.articles);
+        setPopularNews(response.data.articles);
         setLoading(false);
       })
       .catch((error) => {
-        setErrorMessage(error.message);
+        setErrorMessage(error);
       });
+  };
+
+  const handleSetCategory = (cat) => {
+    setLoading(true);
+    fetchPopularNews(cat);
+    fetchHeadlineNews(cat);
   };
 
   useEffect(() => {
     setLoading(true);
     fetchHeadlineNews();
-    fetchDefaultNews();
+    fetchPopularNews();
   }, []);
 
   const routes = [
@@ -63,8 +69,11 @@ const App = () => {
       components: (
         <HomePage
           headlineNews={headlineNews}
-          recentNews={recentNews.slice(0, 5)}
+          popularNews={popularNews.slice(0, 5)}
           categories={categories}
+          handleSetCategory={handleSetCategory}
+          loading={loading}
+          errorMessage={errorMessage}
         />
       ),
     },
@@ -85,21 +94,7 @@ const App = () => {
     },
   ];
 
-  return (
-    <Router>
-      <Layout>
-        <Switch>
-          {routes.map((route, index) => {
-            return (
-              <Route key={index} exact={route.exact} path={route.path}>
-                {route.components}
-              </Route>
-            );
-          })}
-        </Switch>
-      </Layout>
-    </Router>
-  );
+  return <Routes routes={routes} />;
 };
 
 export default App;
