@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 
 import CategorySlider from "components/common/category/CategorySlider";
 import NewsCardSlider from "components/common/news/NewsCardSlider";
+import Alert from "components/common/alert/Alert";
 
 import ListHorizontal from "components/common/loading/ListHorizontal";
 
@@ -26,7 +27,7 @@ const HomePage = ({
           <ListHorizontal />
         </>
       ) : errorMessage ? (
-        errorMessage
+        <Alert variant="danger">{errorMessage}</Alert>
       ) : (
         <>
           <NewsCardSlider title="Headline News" news={headlineNews} />

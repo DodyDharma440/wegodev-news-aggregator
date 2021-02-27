@@ -7,7 +7,7 @@ import Content from "components/common/layout/content";
 
 const Layout = ({ children }) => {
   return (
-    <main className="font-sans box-border bg-gray-100 min-h-screen">
+    <main className="box-border font-dmSans bg-myPalette-background text-myPalette-text min-h-screen">
       <NavbarTop />
       <Content>{children}</Content>
       <NavbarBottom />

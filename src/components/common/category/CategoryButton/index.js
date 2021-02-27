@@ -5,7 +5,7 @@ const CategoryButton = ({ category, handleSetCategory }) => {
   return (
     <button
       onClick={() => handleSetCategory(category.id)}
-      className="inline-block bg-green-400 mx-1 px-4 py-2 rounded-md focus:outline-none"
+      className="inline-block bg-myPalette-purple mx-1 px-6 py-2 rounded-full focus:outline-none"
     >
       <span className="capitalize text-white font-bold">{category.label}</span>
     </button>

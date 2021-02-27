@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import NewsCard from "components/common/news/NewsCard";
 
 const NewsCardSlider = ({ title, news }) => {
-  return news.length > 0 ? (
+  return news === undefined ? null : news.length > 0 ? (
     <>
       <h1 className="text-3xl font-semibold mb-2 text-gray-800">{title}</h1>
       <div className="overflow-auto whitespace-nowrap pb-3">

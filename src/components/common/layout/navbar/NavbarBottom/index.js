@@ -1,6 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 import { HiHome, HiClipboardList, HiSearch, HiBookmark } from "react-icons/hi";
 
@@ -23,21 +22,24 @@ const menuItems = [
   },
 ];
 
-const NavbarTop = () => {
+const NavbarBottom = () => {
   return (
-    <div className="fixed inset-x-0 bottom-0 bg-green-500">
+    <div className="fixed inset-x-0 bottom-0 bg-myPalette-dark1">
       <div className="flex justify-center">
         {menuItems.map((menuItem, index) => {
           return (
-            <div
+            <NavLink
               key={index}
-              className="py-3 px-5 hover:bg-green-600 text-center"
+              exact
+              to={menuItem.url}
+              activeClassName="bg-myPalette-dark2"
+              className="py-3 px-5 text-center"
               style={{ width: `calc(100vh / ${menuItems.length})` }}
             >
-              <Link to={menuItem.url} className="m-auto text-2xl text-gray-100">
+              <span className="m-auto text-2xl text-gray-100">
                 {menuItem.icon}
-              </Link>
-            </div>
+              </span>
+            </NavLink>
           );
         })}
       </div>
@@ -45,11 +47,4 @@ const NavbarTop = () => {
   );
 };
 
-NavbarTop.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]),
-};
-
-export default NavbarTop;
+export default NavbarBottom;
