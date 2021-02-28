@@ -1,0 +1,7 @@
+.button-category:nth-child(1) {
+  margin-left: 8px;
+}
+
+.button-category:nth-last-child(1) {
+  margin-right: 8px;
+}

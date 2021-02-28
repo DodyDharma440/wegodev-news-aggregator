@@ -5,7 +5,7 @@ import CategoryButton from "components/common/category/CategoryButton";
 
 const CategorySlider = ({ categories, handleSetCategory }) => {
   return (
-    <div className="overflow-auto whitespace-nowrap pb-3">
+    <div className="overflow-auto whitespace-nowrap pb-3 -mx-2">
       {categories !== undefined
         ? categories.map((category, index) => {
             return (

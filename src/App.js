@@ -7,12 +7,13 @@ import HomePage from "pages/HomePage";
 
 const categories = [
   { label: "Technology", id: "technology" },
-  { label: "Bussines", id: "bussines" },
-  { label: "Entertaiment", id: "entertaiment" },
-  { label: "General", id: "general" },
-  { label: "Health", id: "health" },
-  { label: "Science", id: "science" },
-  { label: "Sports", id: "sports" },
+  { label: "Apple", id: "apple" },
+  { label: "Microsoft", id: "microsoft" },
+  { label: "Game", id: "game" },
+  { label: "Google", id: "google" },
+  { label: "Android", id: "android" },
+  { label: "Tesla", id: "tesla" },
+  { label: "Netflix", id: "netflix" },
 ];
 
 const App = () => {
@@ -59,8 +60,8 @@ const App = () => {
 
   useEffect(() => {
     setLoading(true);
-    fetchHeadlineNews();
     fetchPopularNews();
+    fetchHeadlineNews();
   }, []);
 
   const routes = [
@@ -71,7 +72,7 @@ const App = () => {
       components: (
         <HomePage
           headlineNews={headlineNews}
-          popularNews={popularNews.slice(0, 5)}
+          popularNews={popularNews.slice(0, 3)}
           categories={categories}
           handleSetCategory={handleSetCategory}
           loading={loading}

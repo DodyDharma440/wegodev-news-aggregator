@@ -5,7 +5,7 @@ import CategorySlider from "components/common/category/CategorySlider";
 import NewsCardSlider from "components/common/news/NewsCardSlider";
 import Alert from "components/common/alert/Alert";
 
-import ListHorizontal from "components/common/loading/ListHorizontal";
+import ListHorizontalLoading from "components/common/loading/ListHorizontal";
 
 const HomePage = ({
   popularNews,
@@ -23,8 +23,8 @@ const HomePage = ({
       />
       {loading ? (
         <>
-          <ListHorizontal />
-          <ListHorizontal />
+          <ListHorizontalLoading />
+          <ListHorizontalLoading />
         </>
       ) : errorMessage ? (
         <Alert variant="danger">{errorMessage}</Alert>
