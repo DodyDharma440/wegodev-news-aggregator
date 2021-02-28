@@ -4,7 +4,7 @@ const ListHorizontal = () => {
   return (
     <div className="animate-pulse">
       <div className="font-semibold mb-2 bg-gray-400 rounded-2xl w-32 h-9" />
-      <div className="overflow-hidden whitespace-nowrap pb-3">
+      <div className="overflow-hidden whitespace-nowrap pb-8 -mx-2">
         <div className="bg-white rounded-2xl pb-2 w-80 inline-block mx-2">
           <div className="h-44 w-full rounded-t-2xl bg-gray-400" />
           <div className="px-4 py-2 whitespace-normal">

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import CategoryButton from "components/common/category/CategoryButton";
 
-const CategorySlider = ({ categories, handleSetCategory }) => {
+const CategorySlider = ({ categories, handleSetCategory, currentCategory }) => {
   return (
     <div className="overflow-auto whitespace-nowrap pb-3 -mx-2">
       {categories !== undefined
@@ -13,6 +13,7 @@ const CategorySlider = ({ categories, handleSetCategory }) => {
                 key={index}
                 category={category}
                 handleSetCategory={handleSetCategory}
+                currentCategory={currentCategory}
               />
             );
           })
