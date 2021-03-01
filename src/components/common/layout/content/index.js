@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const Content = ({ children }) => {
-  return <div className="py-16 px-2">{children}</div>;
+  return <div id="content">{children}</div>;
 };
 
 Content.propTypes = {

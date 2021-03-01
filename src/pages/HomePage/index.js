@@ -68,7 +68,7 @@ const HomePage = ({ categories }) => {
   }, []);
 
   return (
-    <div id="homePage">
+    <div id="homePage" className="py-16 px-2">
       <CategorySlider
         categories={categories}
         handleSetCategory={handleSetCategory}

@@ -1,10 +1,11 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import { dateFormatter, timeFormatter } from "utils/timeFormat";
 
 const NewsListItem = ({ newsItem }) => {
   const {
-    author,
+    //author,
     title,
     urlToImage,
     url,
@@ -43,6 +44,10 @@ const NewsListItem = ({ newsItem }) => {
       </div>
     </a>
   );
+};
+
+NewsListItem.propTypes = {
+  newsItem: PropTypes.object.isRequired,
 };
 
 export default NewsListItem;
