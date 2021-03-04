@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-import axios from "axios";
+import React, { useState, useContext } from "react";
+import { GlobalContext } from "hooks/Context";
+import { getData } from "hooks/Axios";
 import classnames from "classnames";
 
 import CategoryTiles from "components/common/category/CategoryTiles";
@@ -10,24 +10,33 @@ import ListVerticalLoading from "components/common/loading/ListVerical";
 
 import { HiMenuAlt3 } from "react-icons/hi";
 
-const CategoryPage = ({ categories }) => {
-  const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(undefined);
-  const [news, setNews] = useState([]);
+const CategoryPage = () => {
+  const {
+    news,
+    setNews,
+    errorMessage,
+    setErrorMessage,
+    loading,
+    setLoading,
+    setCurrentCategory,
+  } = useContext(GlobalContext);
 
   const [showCategory, setShowCategory] = useState(true);
   const [showNewsList, setShowNewsList] = useState(false);
 
-  const [currentCategory, setCurrentCategory] = useState({
-    id: "technology",
-    label: "Technology",
-  });
+  const handleCategoryClick = (category) => {
+    setShowCategory(false);
+    setShowNewsList(true);
+    setLoading(true);
+    setCurrentCategory({
+      id: category.id,
+      label: category.label,
+    });
 
-  const fetchNews = (cat) => {
-    axios
-      .get(
-        `https://newsapi.org/v2/everything?q=${cat}&apiKey=0b1eab85c7934f29b778cb90cf9a7ff3`
-      )
+    getData({
+      type: "everything",
+      query: category.id,
+    })
       .then((response) => {
         setNews(response.data.articles);
         setLoading(false);
@@ -36,17 +45,6 @@ const CategoryPage = ({ categories }) => {
         setErrorMessage(error.message);
         setLoading(false);
       });
-  };
-
-  const handleCategoryClick = (cat) => {
-    setShowCategory(false);
-    setShowNewsList(true);
-    setLoading(true);
-    setCurrentCategory({
-      id: cat.id,
-      label: cat.label,
-    });
-    fetchNews(cat.id);
   };
 
   const handleShowHideMenu = () => {
@@ -62,7 +60,7 @@ const CategoryPage = ({ categories }) => {
         ) : errorMessage ? (
           <Alert variant="danger">{errorMessage}</Alert>
         ) : (
-          <NewsList news={news} currentCategory={currentCategory.label} />
+          <NewsList news={news} />
         )}
         <div className="fixed bottom-16 right-4">
           <button
@@ -84,22 +82,14 @@ const CategoryPage = ({ categories }) => {
     <div id="categoryPage" className={containerStyle}>
       {showCategory ? (
         <CategoryTiles
-          categories={categories}
           handleCategoryClick={handleCategoryClick}
-          newsLength={news.length}
           handleShowHideMenu={handleShowHideMenu}
         />
       ) : showNewsList ? (
         <RenderNewsList />
-      ) : (
-        false
-      )}
+      ) : null}
     </div>
   );
-};
-
-CategoryPage.propTypes = {
-  categories: PropTypes.array,
 };
 
 export default CategoryPage;

@@ -21,7 +21,11 @@ const NewsCard = ({ newsItem }) => {
   return (
     <div className="bg-white rounded-2xl pb-2 w-80 inline-block mx-2 text-left align-top shadow-xl">
       <div className="image-wrapper bg-gray-400 rounded-t-2xl">
-        <img src={image} alt={source} className="h-44 w-full rounded-t-2xl" />
+        <img
+          src={image}
+          alt={source.name}
+          className="h-44 w-full rounded-t-2xl"
+        />
       </div>
       <div className="px-4 py-2 whitespace-normal">
         <p className="text-sm text-myPalette-darkPurple font-bold align-middle truncate">
