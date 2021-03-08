@@ -1,8 +1,9 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { GlobalContext } from "hooks/Context";
 import { getData } from "hooks/Axios";
 import classnames from "classnames";
 
+import Header from "components/common/head/Header";
 import CategoryTiles from "components/common/category/CategoryTiles";
 import NewsList from "components/common/news/NewsList";
 import Alert from "components/common/alert/Alert";
@@ -52,15 +53,20 @@ const CategoryPage = () => {
     setShowNewsList(!showNewsList);
   };
 
+  useEffect(() => {
+    setErrorMessage(undefined);
+  }, [setErrorMessage]);
+
   const RenderNewsList = () => {
     return (
       <>
+        <Header />
         {loading ? (
           <ListVerticalLoading />
         ) : errorMessage ? (
           <Alert variant="danger">{errorMessage}</Alert>
         ) : (
-          <NewsList news={news} />
+          <NewsList title news={news} />
         )}
         <div className="fixed bottom-16 right-4">
           <button

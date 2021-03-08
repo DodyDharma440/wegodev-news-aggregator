@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import ScrollToTop from "./ScrollToTop";
 
-import Layout from "components/common/layout";
+import Layout from "components/common/layout/Layout";
 import HomePage from "pages/HomePage";
 import CategoryPage from "pages/CategoryPage";
 import ExplorePage from "pages/ExplorePage";

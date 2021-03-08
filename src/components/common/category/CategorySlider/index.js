@@ -4,7 +4,7 @@ import { GlobalContext } from "hooks/Context";
 
 import CategoryButton from "components/common/category/CategoryButton";
 
-const CategorySlider = ({ fetchNews, fetchHeadlineNews }) => {
+const CategorySlider = ({ handleCategoryClick }) => {
   const { categories } = useContext(GlobalContext);
 
   return (
@@ -15,9 +15,10 @@ const CategorySlider = ({ fetchNews, fetchHeadlineNews }) => {
               <CategoryButton
                 key={index}
                 category={category}
-                fetchNews={fetchNews}
-                fetchHeadlineNews={fetchHeadlineNews}
-              />
+                handleCategoryClick={handleCategoryClick}
+              >
+                {category.label}
+              </CategoryButton>
             );
           })
         : null}

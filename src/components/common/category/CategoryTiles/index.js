@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { GlobalContext } from "hooks/Context";
 import PropTypes from "prop-types";
 
-import CategoryCard from "components/common/category/CategoryCard";
+import CategoryCardLarge from "components/common/category/CategoryCardLarge";
 
 import { HiX } from "react-icons/hi";
 
@@ -11,7 +11,7 @@ const CategoryTiles = ({ handleCategoryClick, handleShowHideMenu }) => {
 
   return (
     <div className="bg-myPalette-purple min-h-screen">
-      <div className="py-16 px-2">
+      <div className="pb-16 pt-2 px-2">
         <div className="flex mb-4">
           <h1 className="text-3xl font-semibold text-gray-100 flex-1">
             Select Category
@@ -29,7 +29,7 @@ const CategoryTiles = ({ handleCategoryClick, handleShowHideMenu }) => {
           {categories.map((category, index) => {
             return (
               <div key={index} className="col-span-1">
-                <CategoryCard
+                <CategoryCardLarge
                   category={category}
                   handleCategoryClick={handleCategoryClick}
                 />

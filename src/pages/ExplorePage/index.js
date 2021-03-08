@@ -1,44 +1,58 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
+import { GlobalContext } from "hooks/Context";
 import { getData } from "hooks/Axios";
 
-import Search from "components/common/search";
+import Search from "components/common/search/Search";
 
 import NewsList from "components/common/news/NewsList";
 import Alert from "components/common/alert/Alert";
+import CategoryCardSmall from "components/common/category/CategoryCardSmall";
 import ListVerticalLoading from "components/common/loading/ListVerical";
 
-const ExplorePage = ({
-  categories,
-  loading,
-  errorMessage,
-  setLoadingState,
-  setErrorMessageState,
-}) => {
+const ExplorePage = () => {
+  const {
+    categories,
+    loading,
+    setLoading,
+    errorMessage,
+    setErrorMessage,
+  } = useContext(GlobalContext);
+
   const [searchResults, setSearchResults] = useState([]);
 
   const [finalSearchValue, setFinalSearchValue] = useState("");
 
   const fetchSearch = (searchValue) => {
-    setLoadingState(true);
+    setLoading(true);
     setFinalSearchValue(searchValue);
     getData({ type: "everything", query: searchValue })
       .then((response) => {
         if (response.data.totalResults !== 0) {
           setSearchResults(response.data.articles);
+          setLoading(false);
+          setErrorMessage(undefined);
         } else {
-          setErrorMessageState(`No results for ${searchValue}`);
+          setErrorMessage(`No results for ${searchValue}`);
+          setLoading(false);
         }
-        setLoadingState(false);
       })
       .catch((error) => {
-        setErrorMessageState(error.message);
-        setLoadingState(false);
+        setErrorMessage(error.message);
+        setLoading(false);
       });
   };
 
+  const handleCategoryClick = (categoryId) => {
+    fetchSearch(categoryId);
+  };
+
+  useEffect(() => {
+    setErrorMessage(undefined);
+  }, [setErrorMessage]);
+
   return (
-    <div className="py-16 px-2">
-      <Search handleSearchClick={fetchSearch} fetchSearch={fetchSearch} />
+    <div className="pb-16 pt-2 px-2">
+      <Search handleSearchClick={fetchSearch} />
       {loading ? (
         <ListVerticalLoading />
       ) : errorMessage ? (
@@ -46,11 +60,28 @@ const ExplorePage = ({
       ) : (
         <>
           {searchResults.length === 0 && (
-            <div className="absolute w-screen text-center -mx-2">
-              Search for news
+            <div className="w-screen -mx-2">
+              <h3 className="text-center font-bold text-xl mb-2">Categories</h3>
+              <div className="mx-4 flex flex-wrap justify-center">
+                {categories.map((category, index) => {
+                  return (
+                    <CategoryCardSmall
+                      key={index}
+                      category={category}
+                      handleCategoryClick={handleCategoryClick}
+                    >
+                      {category.icon}
+                    </CategoryCardSmall>
+                  );
+                })}
+              </div>
             </div>
           )}
-          <NewsList news={searchResults} finalSearchValue={finalSearchValue} />
+          <NewsList
+            title={false}
+            news={searchResults}
+            finalSearchValue={finalSearchValue}
+          />
         </>
       )}
     </div>

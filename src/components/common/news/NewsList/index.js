@@ -4,16 +4,14 @@ import PropTypes from "prop-types";
 
 import NewsListItem from "components/common/news/NewsListItem";
 
-const NewsList = ({ news, finalSearchValue }) => {
+const NewsList = ({ news, title, finalSearchValue }) => {
   const { currentCategory } = useContext(GlobalContext);
 
   return (
     <>
-      {currentCategory !== undefined ? (
-        <h1 className="text-3xl capitalize font-semibold mb-2 text-gray-800">
-          {`${currentCategory.label} News`}
-        </h1>
-      ) : null}
+      <h1 className="text-3xl capitalize font-semibold mb-2 text-gray-800">
+        {title ? `${currentCategory.label} News` : null}
+      </h1>
 
       {finalSearchValue ? (
         <h1 className="text-xl font-semibold mb-2 text-gray-800">

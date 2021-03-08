@@ -1,15 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import NavbarTop from "components/common/layout/navbar/NavbarTop";
-import NavbarBottom from "components/common/layout/navbar/NavbarBottom";
-import Content from "components/common/layout/content";
+import NavbarBottom from "components/common/layout/NavbarBottom";
 
 const Layout = ({ children }) => {
   return (
     <main className="box-border font-dmSans bg-myPalette-background text-myPalette-text min-h-screen">
-      <NavbarTop />
-      <Content>{children}</Content>
+      <div id="content">{children}</div>
       <NavbarBottom />
     </main>
   );

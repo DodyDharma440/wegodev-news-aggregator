@@ -1,24 +1,24 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-import { HiHome, HiClipboardList, HiSearch, HiBookmark } from "react-icons/hi";
+import { FiHome, FiSearch, FiList, FiBookmark } from "react-icons/fi";
 
 const menuItems = [
   {
     url: "/",
-    icon: <HiHome className="m-auto" />,
+    icon: <FiHome className="m-auto" />,
   },
   {
     url: "/category",
-    icon: <HiClipboardList className="m-auto" />,
+    icon: <FiList className="m-auto" />,
   },
   {
     url: "/explore",
-    icon: <HiSearch className="m-auto" />,
+    icon: <FiSearch className="m-auto" />,
   },
   {
     url: "/bookmarks",
-    icon: <HiBookmark className="m-auto" />,
+    icon: <FiBookmark className="m-auto" />,
   },
 ];
 
