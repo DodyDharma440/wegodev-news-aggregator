@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import NavbarBottom from "components/common/layout/NavbarBottom";
+import NavbarBottom from "components/layout/NavbarBottom";
 
 const Layout = ({ children }) => {
   return (

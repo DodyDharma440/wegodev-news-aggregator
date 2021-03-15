@@ -1,7 +1,7 @@
 import React from "react";
 
 import Routes from "./routes/Routes";
-import { GlobalProvider } from "./hooks/Context";
+import { GlobalProvider } from "./context/Context";
 
 const App = () => {
   return (

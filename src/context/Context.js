@@ -6,7 +6,8 @@ import { CgMicrosoft } from "react-icons/cg";
 import { FaGamepad, FaPlaystation } from "react-icons/fa";
 import { BiCodeAlt } from "react-icons/bi";
 import { AiFillGoogleCircle, AiFillAndroid } from "react-icons/ai";
-import { SiIntel, SiTesla, SiNvidia } from "react-icons/si";
+import { SiTesla, SiNvidia, SiLinux } from "react-icons/si";
+import { GiNetworkBars } from "react-icons/gi";
 
 export const GlobalContext = createContext();
 
@@ -43,9 +44,9 @@ export const GlobalProvider = ({ children }) => {
       icon: <AiFillGoogleCircle />,
     },
     {
-      id: "intel",
-      label: "Intel",
-      icon: <SiIntel />,
+      id: "networking",
+      label: "Networking",
+      icon: <GiNetworkBars />,
     },
     {
       id: "android",
@@ -67,11 +68,14 @@ export const GlobalProvider = ({ children }) => {
       label: "Nvidia",
       icon: <SiNvidia />,
     },
+    {
+      id: "linux",
+      label: "Linux",
+      icon: <SiLinux />,
+    },
   ];
 
   const [news, setNews] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(undefined);
   const [currentCategory, setCurrentCategory] = useState({
     id: "technology",
     label: "Technology",
@@ -83,10 +87,6 @@ export const GlobalProvider = ({ children }) => {
         categories,
         news,
         setNews,
-        loading,
-        setLoading,
-        errorMessage,
-        setErrorMessage,
         currentCategory,
         setCurrentCategory,
       }}

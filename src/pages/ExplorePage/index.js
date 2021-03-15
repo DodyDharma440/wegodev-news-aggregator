@@ -1,25 +1,20 @@
 import React, { useState, useContext, useEffect } from "react";
-import { GlobalContext } from "hooks/Context";
-import { getData } from "hooks/Axios";
+import { GlobalContext } from "context/Context";
+import { getData } from "api/getData";
 
-import Search from "components/common/search/Search";
-
-import NewsList from "components/common/news/NewsList";
-import Alert from "components/common/alert/Alert";
-import CategoryCardSmall from "components/common/category/CategoryCardSmall";
-import ListVerticalLoading from "components/common/loading/ListVerical";
+import Search from "components/search/Search";
+import NewsList from "components/news/NewsList";
+import NewsListItem from "components/news/NewsListItem";
+import Alert from "components/alert/Alert";
+import CategoryCardSmall from "components/category/CategoryCardSmall";
+import ListVerticalLoading from "components/loading/ListVerical";
 
 const ExplorePage = () => {
-  const {
-    categories,
-    loading,
-    setLoading,
-    errorMessage,
-    setErrorMessage,
-  } = useContext(GlobalContext);
+  const { categories } = useContext(GlobalContext);
 
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(undefined);
   const [searchResults, setSearchResults] = useState([]);
-
   const [finalSearchValue, setFinalSearchValue] = useState("");
 
   const fetchSearch = (searchValue) => {
@@ -37,7 +32,7 @@ const ExplorePage = () => {
         }
       })
       .catch((error) => {
-        setErrorMessage(error.message);
+        setErrorMessage(error.response.data.message);
         setLoading(false);
       });
   };
@@ -60,7 +55,7 @@ const ExplorePage = () => {
       ) : (
         <>
           {searchResults.length === 0 && (
-            <div className="w-screen -mx-2">
+            <div className="w-screen -mx-2 transform -translate-y-4">
               <h3 className="text-center font-bold text-xl mb-2">Categories</h3>
               <div className="mx-4 flex flex-wrap justify-center">
                 {categories.map((category, index) => {
@@ -81,7 +76,11 @@ const ExplorePage = () => {
             title={false}
             news={searchResults}
             finalSearchValue={finalSearchValue}
-          />
+          >
+            {searchResults.map((newsItem, index) => {
+              return <NewsListItem key={index} newsItem={newsItem} />;
+            })}
+          </NewsList>
         </>
       )}
     </div>

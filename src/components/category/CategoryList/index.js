@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { GlobalContext } from "hooks/Context";
+import { GlobalContext } from "context/Context";
 
 const CategoryList = () => {
   const { categories } = useContext(GlobalContext);

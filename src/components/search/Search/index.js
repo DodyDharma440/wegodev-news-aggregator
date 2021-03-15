@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 
-import { HiSearch, HiX } from "react-icons/hi";
+import { HiX } from "react-icons/hi";
 import { FiSearch } from "react-icons/fi";
 
 const Search = ({ handleSearchClick }) => {
@@ -42,7 +42,7 @@ const Search = ({ handleSearchClick }) => {
             ></path>
           </svg>
         </div>
-        <h1 className="text-2xl text-white font-semibold w-7/12">
+        <h1 className="text-2xl text-white font-semibold w-7/12 ml-2">
           Search For The News You Want
         </h1>
       </div>

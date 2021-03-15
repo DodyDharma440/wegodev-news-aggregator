@@ -1,29 +1,27 @@
 import React, { useState, useContext, useEffect } from "react";
-import { GlobalContext } from "hooks/Context";
-import { getData } from "hooks/Axios";
+import { GlobalContext } from "context/Context";
+import { getData } from "api/getData";
 import classnames from "classnames";
 
-import Header from "components/common/head/Header";
-import CategoryTiles from "components/common/category/CategoryTiles";
-import NewsList from "components/common/news/NewsList";
-import Alert from "components/common/alert/Alert";
-import ListVerticalLoading from "components/common/loading/ListVerical";
+import Header from "components/head/Header";
+import CategoryTiles from "components/category/CategoryTiles";
+import CategoryCardLarge from "components/category/CategoryCardLarge";
+import NewsList from "components/news/NewsList";
+import NewsListItem from "components/news/NewsListItem";
+import Alert from "components/alert/Alert";
+import ListVerticalLoading from "components/loading/ListVerical";
 
 import { HiMenuAlt3 } from "react-icons/hi";
 
 const CategoryPage = () => {
-  const {
-    news,
-    setNews,
-    errorMessage,
-    setErrorMessage,
-    loading,
-    setLoading,
-    setCurrentCategory,
-  } = useContext(GlobalContext);
+  const { categories, news, setNews, setCurrentCategory } = useContext(
+    GlobalContext
+  );
 
   const [showCategory, setShowCategory] = useState(true);
   const [showNewsList, setShowNewsList] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(undefined);
 
   const handleCategoryClick = (category) => {
     setShowCategory(false);
@@ -66,7 +64,11 @@ const CategoryPage = () => {
         ) : errorMessage ? (
           <Alert variant="danger">{errorMessage}</Alert>
         ) : (
-          <NewsList title news={news} />
+          <NewsList title>
+            {news.map((newsItem, index) => {
+              return <NewsListItem key={index} newsItem={newsItem} />;
+            })}
+          </NewsList>
         )}
         <div className="fixed bottom-16 right-4">
           <button
@@ -87,10 +89,18 @@ const CategoryPage = () => {
   return (
     <div id="categoryPage" className={containerStyle}>
       {showCategory ? (
-        <CategoryTiles
-          handleCategoryClick={handleCategoryClick}
-          handleShowHideMenu={handleShowHideMenu}
-        />
+        <CategoryTiles handleShowHideMenu={handleShowHideMenu}>
+          {categories.map((category, index) => {
+            return (
+              <div key={index} className="col-span-1">
+                <CategoryCardLarge
+                  category={category}
+                  handleCategoryClick={handleCategoryClick}
+                />
+              </div>
+            );
+          })}
+        </CategoryTiles>
       ) : showNewsList ? (
         <RenderNewsList />
       ) : null}

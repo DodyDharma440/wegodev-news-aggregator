@@ -1,10 +1,8 @@
 import React, { useContext } from "react";
-import { GlobalContext } from "hooks/Context";
+import { GlobalContext } from "context/Context";
 import PropTypes from "prop-types";
 
-import NewsListItem from "components/common/news/NewsListItem";
-
-const NewsList = ({ news, title, finalSearchValue }) => {
+const NewsList = ({ children, title, finalSearchValue }) => {
   const { currentCategory } = useContext(GlobalContext);
 
   return (
@@ -20,15 +18,17 @@ const NewsList = ({ news, title, finalSearchValue }) => {
         </h1>
       ) : null}
 
-      {news.map((newsItem, index) => {
-        return <NewsListItem key={index} newsItem={newsItem} />;
-      })}
+      {children}
     </>
   );
 };
 
-NewsListItem.propTypes = {
-  news: PropTypes.array,
+NewsList.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]),
+  title: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   finalSearchValue: PropTypes.string,
 };
 

@@ -1,28 +1,29 @@
 import React, { useState, useEffect, useContext, useCallback } from "react";
-import { GlobalContext } from "hooks/Context";
-import { getData } from "hooks/Axios";
+import { GlobalContext } from "context/Context";
+import { getData } from "api/getData";
 
-import Header from "components/common/head/Header";
-import CategorySlider from "components/common/category/CategorySlider";
-import NewsCardSlider from "components/common/news/NewsCardSlider";
-import NewsList from "components/common/news/NewsList";
-import Alert from "components/common/alert/Alert";
-
-import ListHorizontalLoading from "components/common/loading/ListHorizontal";
+import Header from "components/head/Header";
+import CategorySlider from "components/category/CategorySlider";
+import CategoryButton from "components/category/CategoryButton";
+import NewsCardSlider from "components/news/NewsCardSlider";
+import NewsCard from "components/news/NewsCard";
+import NewsList from "components/news/NewsList";
+import NewsListItem from "components/news/NewsListItem";
+import Alert from "components/alert/Alert";
+import ListHorizontalLoading from "components/loading/ListHorizontal";
 
 const HomePage = () => {
   const {
+    categories,
     news,
     setNews,
-    loading,
-    setLoading,
-    errorMessage,
-    setErrorMessage,
     currentCategory,
     setCurrentCategory,
   } = useContext(GlobalContext);
 
   const [headlineNews, setHeadlineNews] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(undefined);
 
   const fetchNews = useCallback(
     ({ type, query }) => {
@@ -83,12 +84,32 @@ const HomePage = () => {
       type: "top-headlines",
       query: currentCategory.id,
     });
-  }, [currentCategory, fetchHeadlineNews, fetchNews, setLoading]);
+  }, [
+    currentCategory,
+    fetchHeadlineNews,
+    fetchNews,
+    setLoading,
+    setErrorMessage,
+  ]);
 
   return (
     <div id="homePage" className="py-16 px-2">
       <Header />
-      <CategorySlider handleCategoryClick={handleCategoryClick} />
+      <CategorySlider>
+        {categories !== undefined
+          ? categories.map((category, index) => {
+              return (
+                <CategoryButton
+                  key={index}
+                  category={category}
+                  handleCategoryClick={handleCategoryClick}
+                >
+                  {category.label}
+                </CategoryButton>
+              );
+            })
+          : null}
+      </CategorySlider>
       {loading ? (
         <>
           <ListHorizontalLoading />
@@ -98,13 +119,21 @@ const HomePage = () => {
         <Alert variant="danger">{errorMessage}</Alert>
       ) : (
         <>
-          <NewsCardSlider title="Headline News" news={headlineNews} />
-          <NewsCardSlider title="Popular News" news={news.slice(0, 3)} />
-          <NewsList
-            title
-            news={news.slice(4)}
-            currentCategory={currentCategory.label}
-          />
+          <NewsCardSlider title="Headline News">
+            {headlineNews.map((newsItem, index) => {
+              return <NewsCard key={index} newsItem={newsItem} />;
+            })}
+          </NewsCardSlider>
+          <NewsCardSlider title="Popular News">
+            {news.slice(0, 3).map((newsItem, index) => {
+              return <NewsCard key={index} newsItem={newsItem} />;
+            })}
+          </NewsCardSlider>
+          <NewsList title>
+            {news.slice(4).map((newsItem, index) => {
+              return <NewsListItem key={index} newsItem={newsItem} />;
+            })}
+          </NewsList>
         </>
       )}
     </div>

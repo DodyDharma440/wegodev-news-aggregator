@@ -1,13 +1,11 @@
 import React, { useContext } from "react";
-import { GlobalContext } from "hooks/Context";
+import { GlobalContext } from "context/Context";
 import PropTypes from "prop-types";
-
-import CategoryCardLarge from "components/common/category/CategoryCardLarge";
 
 import { HiX } from "react-icons/hi";
 
-const CategoryTiles = ({ handleCategoryClick, handleShowHideMenu }) => {
-  const { categories, news } = useContext(GlobalContext);
+const CategoryTiles = ({ children, handleShowHideMenu }) => {
+  const { news } = useContext(GlobalContext);
 
   return (
     <div className="bg-myPalette-purple min-h-screen">
@@ -25,25 +23,17 @@ const CategoryTiles = ({ handleCategoryClick, handleShowHideMenu }) => {
             </button>
           ) : null}
         </div>
-        <div className="grid grid-cols-2 gap-6">
-          {categories.map((category, index) => {
-            return (
-              <div key={index} className="col-span-1">
-                <CategoryCardLarge
-                  category={category}
-                  handleCategoryClick={handleCategoryClick}
-                />
-              </div>
-            );
-          })}
-        </div>
+        <div className="grid grid-cols-2 gap-6">{children}</div>
       </div>
     </div>
   );
 };
 
 CategoryTiles.propTypes = {
-  handleCategoryClick: PropTypes.func.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]),
   handleShowHideMenu: PropTypes.func,
 };
 

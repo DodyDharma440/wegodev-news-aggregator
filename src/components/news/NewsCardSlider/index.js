@@ -1,24 +1,23 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import NewsCard from "components/common/news/NewsCard";
-
-const NewsCardSlider = ({ title, news }) => {
-  return news === undefined ? null : news.length > 0 ? (
+const NewsCardSlider = ({ children, title }) => {
+  return (
     <>
       <h1 className="text-3xl font-semibold mb-2 text-gray-800">{title}</h1>
       <div className="overflow-auto whitespace-nowrap pb-8 -mx-2">
-        {news.map((newsItem, index) => {
-          return <NewsCard key={index} newsItem={newsItem} />;
-        })}
+        {children}
       </div>
     </>
-  ) : null;
+  );
 };
 
 NewsCardSlider.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]),
   title: PropTypes.string.isRequired,
-  news: PropTypes.array,
 };
 
 export default NewsCardSlider;
