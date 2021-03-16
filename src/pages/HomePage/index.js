@@ -119,16 +119,20 @@ const HomePage = () => {
         <Alert variant="danger">{errorMessage}</Alert>
       ) : (
         <>
-          <NewsCardSlider title="Headline News">
-            {headlineNews.map((newsItem, index) => {
-              return <NewsCard key={index} newsItem={newsItem} />;
-            })}
-          </NewsCardSlider>
+          {headlineNews.length > 0 ? (
+            <NewsCardSlider title="Headline News">
+              {headlineNews.map((newsItem, index) => {
+                return <NewsCard key={index} newsItem={newsItem} />;
+              })}
+            </NewsCardSlider>
+          ) : null}
+
           <NewsCardSlider title="Popular News">
             {news.slice(0, 3).map((newsItem, index) => {
               return <NewsCard key={index} newsItem={newsItem} />;
             })}
           </NewsCardSlider>
+
           <NewsList title>
             {news.slice(4).map((newsItem, index) => {
               return <NewsListItem key={index} newsItem={newsItem} />;

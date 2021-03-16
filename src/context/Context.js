@@ -76,6 +76,9 @@ export const GlobalProvider = ({ children }) => {
   ];
 
   const [news, setNews] = useState([]);
+  const [bookmarks, setBookmarks] = useState(
+    JSON.parse(localStorage.getItem("bookmarks-wegodev-news")) || []
+  );
   const [currentCategory, setCurrentCategory] = useState({
     id: "technology",
     label: "Technology",
@@ -89,6 +92,8 @@ export const GlobalProvider = ({ children }) => {
         setNews,
         currentCategory,
         setCurrentCategory,
+        bookmarks,
+        setBookmarks,
       }}
     >
       {children}

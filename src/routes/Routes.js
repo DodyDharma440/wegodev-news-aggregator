@@ -6,6 +6,7 @@ import Layout from "components/layout/Layout";
 import HomePage from "pages/HomePage";
 import CategoryPage from "pages/CategoryPage";
 import ExplorePage from "pages/ExplorePage";
+import BookmarksPage from "pages/BookmarksPage";
 
 const routes = [
   {
@@ -23,7 +24,7 @@ const routes = [
   },
   {
     path: "/bookmarks",
-    components: <HomePage />,
+    components: <BookmarksPage />,
   },
 ];
 

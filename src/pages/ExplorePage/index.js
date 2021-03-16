@@ -37,6 +37,8 @@ const ExplorePage = () => {
       });
   };
 
+  console.log(searchResults);
+
   const handleCategoryClick = (categoryId) => {
     fetchSearch(categoryId);
   };
