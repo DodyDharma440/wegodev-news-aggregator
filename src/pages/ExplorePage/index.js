@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { GlobalContext } from "context/Context";
+import { GlobalContext } from "context/globalContext";
 import { getData } from "api/getData";
 
 import Search from "components/search/Search";
@@ -36,8 +36,6 @@ const ExplorePage = () => {
         setLoading(false);
       });
   };
-
-  console.log(searchResults);
 
   const handleCategoryClick = (categoryId) => {
     fetchSearch(categoryId);

@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { GlobalContext } from "context/Context";
+import { GlobalContext } from "context/globalContext";
 import PropTypes from "prop-types";
 
 const NewsList = ({ children, title, finalSearchValue }) => {

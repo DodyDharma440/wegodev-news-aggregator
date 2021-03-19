@@ -1,5 +1,6 @@
-import React, { useContext } from "react";
-import { GlobalContext } from "context/Context";
+import React, { useContext, useEffect, useState } from "react";
+import { GlobalContext } from "context/globalContext";
+import classnames from "classnames";
 import PropTypes from "prop-types";
 
 import { HiX } from "react-icons/hi";
@@ -7,11 +8,26 @@ import { HiX } from "react-icons/hi";
 const CategoryTiles = ({ children, handleShowHideMenu }) => {
   const { news } = useContext(GlobalContext);
 
+  const [transition, setTransition] = useState(true);
+
+  const containerStyle = classnames(
+    "bg-myPalette-purple fixed overflow-y-auto inset-0 z-100",
+    {
+      "transition-all duration-200": news.length > 0,
+      "top-full": transition,
+      "top-0": !transition,
+    }
+  );
+
+  useEffect(() => {
+    setTimeout(() => setTransition(false), news.length === 0 ? 0 : 100);
+  }, [news.length]);
+
   return (
-    <div className="bg-myPalette-purple min-h-screen">
+    <div className={containerStyle}>
       <div className="pb-16 pt-2 px-2">
         <div className="flex mb-4">
-          <h1 className="text-3xl font-semibold text-gray-100 flex-1">
+          <h1 className="text-3xl font-semibold text-gray-100 flex-1 ">
             Select Category
           </h1>
           {news.length > 0 ? (

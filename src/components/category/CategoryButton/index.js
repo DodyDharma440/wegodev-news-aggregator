@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import classnames from "classnames";
-import { GlobalContext } from "context/Context";
+import { GlobalContext } from "context/globalContext";
 
 import "./buttonstyle.css";
 

@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import PropTypes from "prop-types";
-import { GlobalContext } from "context/Context";
+import { GlobalContext } from "context/globalContext";
 
 import { HiUserCircle } from "react-icons/hi";
 import { BsFillBookmarkFill, BsBookmark } from "react-icons/bs";
@@ -24,14 +24,10 @@ const NewsCard = ({ newsItem }) => {
 
   const handleSetBookmark = () => {
     bookmarks.filter((bookmark) => {
-      if (
-        `${bookmark.title} - ${bookmark.publishedAt}` ===
+      return `${bookmark.title} - ${bookmark.publishedAt}` ===
         `${newsItem.title} - ${newsItem.publishedAt}`
-      ) {
-        handleRemoveBookmark(newsItem, bookmarks, setBookmarks);
-      } else {
-        handleAddBookmark(newsItem, bookmarks, setBookmarks);
-      }
+        ? handleRemoveBookmark(newsItem, bookmarks, setBookmarks)
+        : handleAddBookmark(newsItem, bookmarks, setBookmarks);
     });
 
     if (bookmarks.length === 0) {
@@ -41,12 +37,10 @@ const NewsCard = ({ newsItem }) => {
 
   if (bookmarks) {
     bookmarks.filter((bookmark) => {
-      if (
-        `${bookmark.title} - ${bookmark.publishedAt}` ===
+      return `${bookmark.title} - ${bookmark.publishedAt}` ===
         `${newsItem.title} - ${newsItem.publishedAt}`
-      ) {
-        newsItem.isBookmarked = true;
-      }
+        ? (newsItem.isBookmarked = true)
+        : null;
     });
   }
 

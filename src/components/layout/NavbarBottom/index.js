@@ -24,7 +24,10 @@ const menuItems = [
 
 const NavbarBottom = () => {
   return (
-    <div className="fixed inset-x-0 bottom-0 bg-myPalette-dark1">
+    <div
+      className="fixed inset-x-0 bottom-0 bg-myPalette-dark1"
+      style={{ zIndex: 200 }}
+    >
       <div className="flex justify-center">
         {menuItems.map((menuItem, index) => {
           return (

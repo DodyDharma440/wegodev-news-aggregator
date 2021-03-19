@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
-import { GlobalContext } from "context/Context";
+import { GlobalContext } from "context/globalContext";
 import { getData } from "api/getData";
-import classnames from "classnames";
 
 import Header from "components/head/Header";
 import CategoryTiles from "components/category/CategoryTiles";
@@ -14,51 +13,70 @@ import ListVerticalLoading from "components/loading/ListVerical";
 import { HiMenuAlt3 } from "react-icons/hi";
 
 const CategoryPage = () => {
-  const { categories, news, setNews, setCurrentCategory } = useContext(
-    GlobalContext
-  );
+  const {
+    categories,
+    news,
+    setNews,
+    setHeadlineNews,
+    setCurrentCategory,
+  } = useContext(GlobalContext);
 
   const [showCategory, setShowCategory] = useState(true);
-  const [showNewsList, setShowNewsList] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(undefined);
 
-  const handleCategoryClick = (category) => {
-    setShowCategory(false);
-    setShowNewsList(true);
+  const fetchNews = ({ type, category }) => {
     setLoading(true);
+    getData({
+      type,
+      query: category.id,
+    })
+      .then((response) => {
+        const { articles } = response.data;
+
+        if (type === "everything") {
+          setNews(articles);
+        } else if (type === "top-headlines") {
+          setHeadlineNews(articles);
+        }
+        setLoading(false);
+      })
+      .catch((error) => {
+        setErrorMessage(error.response.data.message);
+        setLoading(false);
+      });
+  };
+
+  const handleCategoryClick = (category) => {
+    document.body.style.overflow = !showCategory ? "hidden" : "unset";
+    setShowCategory(false);
     setCurrentCategory({
       id: category.id,
       label: category.label,
     });
 
-    getData({
-      type: "everything",
-      query: category.id,
-    })
-      .then((response) => {
-        setNews(response.data.articles);
-        setLoading(false);
-      })
-      .catch((error) => {
-        setErrorMessage(error.message);
-        setLoading(false);
-      });
+    fetchNews({ type: "everything", category });
+    fetchNews({ type: "top-headlines", category });
   };
 
   const handleShowHideMenu = () => {
     setShowCategory(!showCategory);
-    setShowNewsList(!showNewsList);
+    document.body.style.overflow = !showCategory ? "hidden" : "unset";
   };
 
   useEffect(() => {
     setErrorMessage(undefined);
-  }, [setErrorMessage]);
+
+    if (news.length > 0) {
+      setShowCategory(false);
+    }
+
+    document.body.style.overflow = "unset";
+  }, [setErrorMessage, news.length]);
 
   const RenderNewsList = () => {
     return (
-      <>
-        <Header />
+      <div className="py-16 px-2">
         {loading ? (
           <ListVerticalLoading />
         ) : errorMessage ? (
@@ -78,32 +96,30 @@ const CategoryPage = () => {
             <HiMenuAlt3 className="text-white text-2xl" />
           </button>
         </div>
-      </>
+      </div>
     );
   };
 
-  const containerStyle = classnames("", {
-    "py-16 px-2": showNewsList,
-  });
-
   return (
-    <div id="categoryPage" className={containerStyle}>
+    <div id="categoryPage">
+      <Header style={showCategory && { zIndex: 0 }} />
       {showCategory ? (
-        <CategoryTiles handleShowHideMenu={handleShowHideMenu}>
-          {categories.map((category, index) => {
-            return (
-              <div key={index} className="col-span-1">
-                <CategoryCardLarge
-                  category={category}
-                  handleCategoryClick={handleCategoryClick}
-                />
-              </div>
-            );
-          })}
-        </CategoryTiles>
-      ) : showNewsList ? (
-        <RenderNewsList />
+        <>
+          <CategoryTiles handleShowHideMenu={handleShowHideMenu}>
+            {categories.map((category, index) => {
+              return (
+                <div key={index} className="col-span-1">
+                  <CategoryCardLarge
+                    category={category}
+                    handleCategoryClick={handleCategoryClick}
+                  />
+                </div>
+              );
+            })}
+          </CategoryTiles>
+        </>
       ) : null}
+      <RenderNewsList />
     </div>
   );
 };

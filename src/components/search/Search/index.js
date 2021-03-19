@@ -57,6 +57,7 @@ const Search = ({ handleSearchClick }) => {
             name="search"
             value={searchValue}
             onChange={handleOnInputChange}
+            autoComplete="off"
             className="bg-white ring-1 ring-gray-200 focus:outline-none focus:ring-1 focus:shadow-inputField focus:ring-purple-400 pl-4 pr-8 w-full py-3 rounded-xl shadow-xl"
           />
           {searchValue.length > 0 ? <ButtonReset /> : null}

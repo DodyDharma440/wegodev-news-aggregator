@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { GlobalContext } from "context/Context";
+import { GlobalContext } from "context/globalContext";
 import Header from "components/head/Header";
 import NewsList from "components/news/NewsList";
 import NewsListItem from "components/news/NewsListItem";

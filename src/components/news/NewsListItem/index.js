@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import PropTypes from "prop-types";
-import { GlobalContext } from "context/Context";
+import { GlobalContext } from "context/globalContext";
 import { BsFillBookmarkFill, BsBookmark } from "react-icons/bs";
 
 import { handleAddBookmark, handleRemoveBookmark } from "utils/bookmark";
@@ -13,15 +13,10 @@ const NewsListItem = ({ newsItem }) => {
 
   const handleSetBookmark = () => {
     bookmarks.filter((bookmark) => {
-      if (
-        `${bookmark.title} - ${bookmark.publishedAt}` ===
+      return `${bookmark.title} - ${bookmark.publishedAt}` ===
         `${newsItem.title} - ${newsItem.publishedAt}`
-      ) {
-        handleRemoveBookmark(newsItem, bookmarks, setBookmarks);
-        return true;
-      }
-
-      handleAddBookmark(newsItem, bookmarks, setBookmarks);
+        ? handleRemoveBookmark(newsItem, bookmarks, setBookmarks)
+        : handleAddBookmark(newsItem, bookmarks, setBookmarks);
     });
 
     if (bookmarks.length === 0) {
@@ -31,12 +26,10 @@ const NewsListItem = ({ newsItem }) => {
 
   if (bookmarks) {
     bookmarks.filter((bookmark) => {
-      if (
-        `${bookmark.title} - ${bookmark.publishedAt}` ===
+      return `${bookmark.title} - ${bookmark.publishedAt}` ===
         `${newsItem.title} - ${newsItem.publishedAt}`
-      ) {
-        newsItem.isBookmarked = true;
-      }
+        ? (newsItem.isBookmarked = true)
+        : null;
     });
   }
 
@@ -54,7 +47,7 @@ const NewsListItem = ({ newsItem }) => {
         <div className="col-span-3 ml-1">
           <div className="p-2">
             <div className="flex">
-              <div className="flex-1">
+              <div className="flex-1 min-w-0">
                 <p className="text-sm text-myPalette-darkPurple mb-1 font-bold align-middle truncate">
                   {source.name}
                 </p>

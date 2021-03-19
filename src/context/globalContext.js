@@ -76,6 +76,7 @@ export const GlobalProvider = ({ children }) => {
   ];
 
   const [news, setNews] = useState([]);
+  const [headlineNews, setHeadlineNews] = useState([]);
   const [bookmarks, setBookmarks] = useState(
     JSON.parse(localStorage.getItem("bookmarks-wegodev-news")) || []
   );
@@ -90,6 +91,8 @@ export const GlobalProvider = ({ children }) => {
         categories,
         news,
         setNews,
+        headlineNews,
+        setHeadlineNews,
         currentCategory,
         setCurrentCategory,
         bookmarks,

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, useCallback } from "react";
-import { GlobalContext } from "context/Context";
+import { GlobalContext } from "context/globalContext";
 import { getData } from "api/getData";
 
 import Header from "components/head/Header";
@@ -17,42 +17,38 @@ const HomePage = () => {
     categories,
     news,
     setNews,
+    headlineNews,
+    setHeadlineNews,
     currentCategory,
     setCurrentCategory,
   } = useContext(GlobalContext);
 
-  const [headlineNews, setHeadlineNews] = useState([]);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(undefined);
 
   const fetchNews = useCallback(
-    ({ type, query }) => {
-      getData({ type, query })
+    ({ type, category }) => {
+      setLoading(true);
+      getData({
+        type,
+        query: category.id,
+      })
         .then((response) => {
-          setNews(response.data.articles);
-          setLoading(false);
-        })
-        .catch((error) => {
-          setErrorMessage(error.message);
-          setLoading(false);
-        });
-    },
-    [setErrorMessage, setLoading, setNews]
-  );
+          const { articles } = response.data;
 
-  const fetchHeadlineNews = useCallback(
-    ({ type, query }) => {
-      getData({ type, query })
-        .then((response) => {
-          setHeadlineNews(response.data.articles);
+          if (type === "everything") {
+            setNews(articles);
+          } else if (type === "top-headlines") {
+            setHeadlineNews(articles);
+          }
           setLoading(false);
         })
         .catch((error) => {
-          setErrorMessage(error.message);
+          setErrorMessage(error.response.data.message);
           setLoading(false);
         });
     },
-    [setErrorMessage, setLoading, setHeadlineNews]
+    [setNews, setHeadlineNews]
   );
 
   const handleCategoryClick = (category) => {
@@ -62,35 +58,18 @@ const HomePage = () => {
       label: category.label,
     });
 
-    fetchNews({
-      type: "everything",
-      query: category.id,
-    });
-
-    fetchHeadlineNews({
-      type: "top-headlines",
-      query: category.id,
-    });
+    fetchNews({ type: "everything", category });
+    fetchNews({ type: "top-headlines", category });
   };
 
   useEffect(() => {
-    setLoading(true);
-    setErrorMessage(undefined);
-    fetchNews({
-      type: "everything",
-      query: currentCategory.id,
-    });
-    fetchHeadlineNews({
-      type: "top-headlines",
-      query: currentCategory.id,
-    });
-  }, [
-    currentCategory,
-    fetchHeadlineNews,
-    fetchNews,
-    setLoading,
-    setErrorMessage,
-  ]);
+    if (news.length === 0 || headlineNews.length === 0) {
+      setLoading(true);
+      setErrorMessage(undefined);
+      fetchNews({ type: "everything", category: currentCategory });
+      fetchNews({ type: "top-headlines", category: currentCategory });
+    }
+  }, [currentCategory, fetchNews, news.length, headlineNews.length]);
 
   return (
     <div id="homePage" className="py-16 px-2">
