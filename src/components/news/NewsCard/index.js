@@ -1,10 +1,11 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { GlobalContext } from "context/globalContext";
 
 import { HiUserCircle } from "react-icons/hi";
 import { BsFillBookmarkFill, BsBookmark } from "react-icons/bs";
 
+import Snackbar from "components/alert/Snackbar";
 import { dateFormatter, timeFormatter } from "utils/timeFormat";
 import { handleAddBookmark, handleRemoveBookmark } from "utils/bookmark";
 
@@ -19,30 +20,55 @@ const NewsCard = ({ newsItem }) => {
     publishedAt,
     description,
   } = newsItem;
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [bookmarked, setBookmarked] = useState(false);
+  const [snackbarProps, setSnackbarProps] = useState({
+    variant: "",
+    title: "",
+    text: "",
+  });
 
   const image = urlToImage ? urlToImage : null;
 
   const handleSetBookmark = () => {
-    bookmarks.filter((bookmark) => {
-      return `${bookmark.title} - ${bookmark.publishedAt}` ===
-        `${newsItem.title} - ${newsItem.publishedAt}`
-        ? handleRemoveBookmark(newsItem, bookmarks, setBookmarks)
-        : handleAddBookmark(newsItem, bookmarks, setBookmarks);
-    });
-
-    if (bookmarks.length === 0) {
+    setOpenSnackbar(true);
+    if (!newsItem.isBookmarked || bookmarks.length === 0) {
+      setSnackbarProps({
+        variant: "success",
+        title: "Success",
+        text: "Added to bookmarks",
+      });
+      setBookmarked(true);
       handleAddBookmark(newsItem, bookmarks, setBookmarks);
+    } else {
+      setSnackbarProps({
+        variant: "danger",
+        title: "Removed",
+        text: "Removed from bookmarks",
+      });
+      setBookmarked(false);
+      handleRemoveBookmark(newsItem, bookmarks, setBookmarks);
     }
   };
 
-  if (bookmarks) {
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
+  };
+
+  useEffect(() => {
     bookmarks.filter((bookmark) => {
-      return `${bookmark.title} - ${bookmark.publishedAt}` ===
-        `${newsItem.title} - ${newsItem.publishedAt}`
-        ? (newsItem.isBookmarked = true)
-        : null;
+      if (
+        `${bookmark.title} - ${bookmark.publishedAt}` ===
+        `${title} - ${publishedAt}`
+      ) {
+        setBookmarked(true);
+        return (newsItem.isBookmarked = true);
+      }
+      return null;
     });
-  }
+
+    return () => setBookmarked(false);
+  }, [bookmarks, title, publishedAt, newsItem]);
 
   return (
     <div className="bg-white rounded-2xl pb-2 w-80 inline-block mx-2 text-left align-top shadow-xl">
@@ -58,7 +84,9 @@ const NewsCard = ({ newsItem }) => {
           {source.name}
         </p>
         <h4 className="font-semibold text-xl truncate mb-2">{title}</h4>
-        <p className="text-gray-500 text-xs truncate">{description}</p>
+        <p className="text-gray-500 text-xs truncate line-clamp-2 whitespace-normal">
+          {description}
+        </p>
         <hr
           className="my-3 border-0 bg-myPalette-lightPurple"
           style={{ height: 2 }}
@@ -77,7 +105,7 @@ const NewsCard = ({ newsItem }) => {
           </div>
           <div className="pl-2 py-3 pr-0" onClick={() => handleSetBookmark()}>
             <span className="text-2xl text-myPalette-dark1">
-              {newsItem.isBookmarked ? <BsFillBookmarkFill /> : <BsBookmark />}
+              {bookmarked ? <BsFillBookmarkFill /> : <BsBookmark />}
             </span>
           </div>
         </div>
@@ -87,6 +115,15 @@ const NewsCard = ({ newsItem }) => {
           </div>
         </a>
       </div>
+      <Snackbar
+        variant={snackbarProps.variant}
+        open={openSnackbar}
+        onClose={handleCloseSnackbar}
+        duration={1000}
+        title={snackbarProps.title}
+      >
+        <p className="text-sm text-gray-700">{snackbarProps.text}</p>
+      </Snackbar>
     </div>
   );
 };

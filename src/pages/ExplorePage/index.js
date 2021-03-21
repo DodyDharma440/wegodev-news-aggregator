@@ -42,6 +42,7 @@ const ExplorePage = () => {
   };
 
   useEffect(() => {
+    document.body.style.overflow = "unset";
     setErrorMessage(undefined);
   }, [setErrorMessage]);
 

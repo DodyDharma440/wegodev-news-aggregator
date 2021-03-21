@@ -23,12 +23,12 @@ const HomePage = () => {
     setCurrentCategory,
   } = useContext(GlobalContext);
 
+  const [mounted, setMounted] = useState(true);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(undefined);
 
   const fetchNews = useCallback(
     ({ type, category }) => {
-      setLoading(true);
       getData({
         type,
         query: category.id,
@@ -63,13 +63,21 @@ const HomePage = () => {
   };
 
   useEffect(() => {
-    if (news.length === 0 || headlineNews.length === 0) {
-      setLoading(true);
-      setErrorMessage(undefined);
-      fetchNews({ type: "everything", category: currentCategory });
-      fetchNews({ type: "top-headlines", category: currentCategory });
+    setMounted(true);
+    if (mounted) {
+      document.body.style.overflow = "unset";
+      if (news.length === 0 || headlineNews.length === 0) {
+        setLoading(true);
+        setErrorMessage(undefined);
+        fetchNews({ type: "everything", category: currentCategory });
+        fetchNews({ type: "top-headlines", category: currentCategory });
+      }
     }
-  }, [currentCategory, fetchNews, news.length, headlineNews.length]);
+
+    return () => {
+      setMounted(false);
+    };
+  }, [mounted, currentCategory, fetchNews, news.length, headlineNews.length]);
 
   return (
     <div id="homePage" className="py-16 px-2">

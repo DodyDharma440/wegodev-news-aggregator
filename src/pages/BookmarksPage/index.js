@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { GlobalContext } from "context/globalContext";
 import Header from "components/head/Header";
 import NewsList from "components/news/NewsList";
@@ -7,6 +7,10 @@ import Alert from "components/alert/Alert";
 
 const BookmarksPage = () => {
   const { bookmarks } = useContext(GlobalContext);
+
+  useEffect(() => {
+    document.body.style.overflow = "unset";
+  }, []);
 
   return (
     <div className="py-16 px-2">

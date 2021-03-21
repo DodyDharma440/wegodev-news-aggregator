@@ -20,7 +20,13 @@ const CategoryTiles = ({ children, handleShowHideMenu }) => {
   );
 
   useEffect(() => {
-    setTimeout(() => setTransition(false), news.length === 0 ? 0 : 100);
+    if (news.length > 0) {
+      setTimeout(() => setTransition(false), 100);
+    } else {
+      setTransition(false);
+    }
+
+    return () => setTransition(true);
   }, [news.length]);
 
   return (

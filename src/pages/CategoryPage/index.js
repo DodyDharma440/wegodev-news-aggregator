@@ -65,17 +65,37 @@ const CategoryPage = () => {
   };
 
   useEffect(() => {
-    setErrorMessage(undefined);
-
     if (news.length > 0) {
       setShowCategory(false);
     }
 
     document.body.style.overflow = "unset";
+
+    return () => {
+      setErrorMessage(undefined);
+      setShowCategory(true);
+    };
   }, [setErrorMessage, news.length]);
 
-  const RenderNewsList = () => {
-    return (
+  return (
+    <div id="categoryPage">
+      <Header style={showCategory && { zIndex: 0 }} />
+      {showCategory ? (
+        <>
+          <CategoryTiles handleShowHideMenu={handleShowHideMenu}>
+            {categories.map((category, index) => {
+              return (
+                <div key={index} className="col-span-1">
+                  <CategoryCardLarge
+                    category={category}
+                    handleCategoryClick={handleCategoryClick}
+                  />
+                </div>
+              );
+            })}
+          </CategoryTiles>
+        </>
+      ) : null}
       <div className="py-16 px-2">
         {loading ? (
           <ListVerticalLoading />
@@ -97,29 +117,6 @@ const CategoryPage = () => {
           </button>
         </div>
       </div>
-    );
-  };
-
-  return (
-    <div id="categoryPage">
-      <Header style={showCategory && { zIndex: 0 }} />
-      {showCategory ? (
-        <>
-          <CategoryTiles handleShowHideMenu={handleShowHideMenu}>
-            {categories.map((category, index) => {
-              return (
-                <div key={index} className="col-span-1">
-                  <CategoryCardLarge
-                    category={category}
-                    handleCategoryClick={handleCategoryClick}
-                  />
-                </div>
-              );
-            })}
-          </CategoryTiles>
-        </>
-      ) : null}
-      <RenderNewsList />
     </div>
   );
 };
