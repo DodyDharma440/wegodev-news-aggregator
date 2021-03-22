@@ -30,11 +30,7 @@ const CategoryTiles = ({ children, handleShowHideMenu }) => {
       }
     }
 
-<<<<<<< HEAD
     return () => setMounted(false);
-=======
-    return () => setTransition(false);
->>>>>>> 87930be180f23ee568532def916d874084df9ec4
   }, [mounted, news.length]);
 
   return (
