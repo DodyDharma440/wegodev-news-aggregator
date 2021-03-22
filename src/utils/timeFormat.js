@@ -1,54 +1,56 @@
+const getDateTime = (value, type) => {
+  const dateTime = new Date(value);
+
+  switch (type) {
+    case "hour":
+      return dateTime.getHours().toLocaleString();
+
+    case "minute":
+      return dateTime.getMinutes().toLocaleString();
+
+    case "second":
+      return dateTime.getSeconds().toLocaleString();
+
+    case "date":
+      return dateTime.getDate().toLocaleString();
+
+    case "month":
+      return dateTime.getMonth().toLocaleString();
+
+    case "year":
+      return dateTime.getFullYear();
+
+    default:
+      return dateTime.toLocaleString();
+  }
+};
+
 export const dateFormatter = (dates) => {
   if (dates !== undefined) {
-    let date = dates.substring(8, 10);
-    let month = dates.substring(5, 7);
-    let year = dates.substring(0, 4);
+    const monthName = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "Desember",
+    ];
 
-    switch (month) {
-      case "01":
-        month = "January";
-        break;
-      case "02":
-        month = "February";
-        break;
-      case "03":
-        month = "March";
-        break;
-      case "04":
-        month = "April";
-        break;
-      case "05":
-        month = "May";
-        break;
-      case "06":
-        month = "June";
-        break;
-      case "07":
-        month = "July";
-        break;
-      case "08":
-        month = "August";
-        break;
-      case "09":
-        month = "September";
-        break;
-      case "10":
-        month = "October";
-        break;
-      case "11":
-        month = "November";
-        break;
-      case "12":
-        month = "Desember";
-        break;
-      default:
-        month = undefined;
-        break;
-    }
+    let getDate = getDateTime(dates, "date");
+    const date = getDate.length === 1 ? `0${getDate}` : getDate;
 
-    const DMY = `${date} ${month.substr(0, 3)} ${year}`;
+    let month = getDateTime(dates, "month");
+    month = monthName[month];
 
-    return DMY;
+    let year = getDateTime(dates, "year");
+
+    return `${date} ${month.substr(0, 3)} ${year}`;
   } else {
     console.error("Params is undefined");
   }
@@ -56,8 +58,16 @@ export const dateFormatter = (dates) => {
 
 export const timeFormatter = (time) => {
   if (time !== undefined) {
-    const HMS = time.substring(11, 19);
-    return HMS;
+    let getHour = getDateTime(time, "hour");
+    const hour = getHour.length === 1 ? `0${getHour}` : getHour;
+
+    let getMinute = getDateTime(time, "minute");
+    const minute = getMinute.length === 1 ? `0${getMinute}` : getMinute;
+
+    let getSecond = getDateTime(time, "second");
+    const second = getSecond.length === 1 ? `0${getSecond}` : getSecond;
+
+    return `${hour}:${minute}:${second}`;
   } else {
     console.error("Params is undefined");
   }
