@@ -7,6 +7,7 @@ import { HiX } from "react-icons/hi";
 
 const CategoryTiles = ({ children, handleShowHideMenu }) => {
   const { news } = useContext(GlobalContext);
+  const [mounted, setMounted] = useState(false);
 
   const [transition, setTransition] = useState(true);
 
@@ -20,14 +21,17 @@ const CategoryTiles = ({ children, handleShowHideMenu }) => {
   );
 
   useEffect(() => {
-    if (news.length > 0) {
-      setTimeout(() => setTransition(false), 100);
-    } else {
-      setTransition(false);
+    setMounted(true);
+    if (mounted) {
+      if (news.length > 0) {
+        setTimeout(() => setTransition(false), 100);
+      } else {
+        setTransition(false);
+      }
     }
 
-    return () => setTransition(true);
-  }, [news.length]);
+    return () => setTransition(false);
+  }, [mounted, news.length]);
 
   return (
     <div className={containerStyle}>
