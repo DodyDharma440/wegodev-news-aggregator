@@ -31,6 +31,7 @@ Alert.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]),
+  variant: PropTypes.string,
 };
 
 export default Alert;

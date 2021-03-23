@@ -8,7 +8,10 @@ const CategorySlider = ({ children }) => {
 };
 
 CategorySlider.propTypes = {
-  categories: PropTypes.array,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]),
 };
 
 export default CategorySlider;

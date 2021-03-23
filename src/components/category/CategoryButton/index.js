@@ -27,6 +27,10 @@ const CategoryButton = ({ children, category, handleCategoryClick }) => {
 };
 
 CategoryButton.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]),
   category: PropTypes.object.isRequired,
   handleCategoryClick: PropTypes.func.isRequired,
 };

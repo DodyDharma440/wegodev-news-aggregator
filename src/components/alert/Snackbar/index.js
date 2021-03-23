@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import classnames from "classnames";
 
 import { BsCheckCircle } from "react-icons/bs";
@@ -38,6 +39,23 @@ const Snackbar = ({ children, variant, open, onClose, duration, title }) => {
       </div>
     </div>
   ) : null;
+};
+
+Snackbar.defaultProps = {
+  variant: "success",
+  title: "",
+};
+
+Snackbar.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]),
+  variant: PropTypes.string,
+  open: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  duration: PropTypes.number,
+  title: PropTypes.string,
 };
 
 export default Snackbar;
